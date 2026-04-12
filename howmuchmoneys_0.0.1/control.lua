@@ -13,42 +13,27 @@ function show_me_inv(tableIn)
 	game.print(#inventory.get_contents())
 end
 
-function how_much_moneys(tableIn) --Event pass a table into the function
-
-	game.tick_paused = true
-
-	local colour = {r=1, g=0, b=0, a=1}
-
-    local inventory = running_player.character.get_main_inventory() -- get_inventory() can be used too
-	the_given_index = 1
-	get_item_stack(inventory)
-
-	game.print("blarg")
-	game.tick_paused = false
-	game.print("blorgenheim")
-	--game.print("You have: " .. moneys .. "€ " .. running_player.name, colour)
-
-end
-
-function how_much_moneys_am_i(tableIn) --Event pass a table into the function
-
-	game.tick_paused = true
+function gimme_net(tableIn)
 
 	local running_player = game.get_player(tableIn.player_index)
 
-	local colour = {r=1, g=0, b=0, a=1}
+	game.tick_paused = true
 
-	if running_player.character then
+	game.print(running_player .. "Ordered a check;")
+
+end
+
+function how_much_moneys(tableIn) --Event pass a table into the function
+
+	local colour = {r=1, g=0, b=0, a=1}
 
     local inventory = running_player.character.get_main_inventory() -- get_inventory() can be used too
 	the_given_index = 1
 	get_item_stack(inventory)
 
-	end
 	game.print("blarg")
 	game.tick_paused = false
 	game.print("blorgenheim")
-	--game.print("You have: " .. moneys .. "€ " .. running_player.name, colour)
 
 end
 
@@ -64,61 +49,58 @@ function get_item_stack(inventory)
 
 end
 
+function value_returner(inventory)
+		game.print(inventory.get_contents()[the_given_index], colour)
+		game.print(inventory[the_given_index].count, colour)
+		game.print(materialValueList[inventory[the_given_index].name] * inventory[the_given_index].count .. "$")
+	-- inventory.get_item_count(item)
+end
+
 function gimme_index(tableIn)
 	
 	local running_player = game.get_player(tableIn.player_index)
 
 	local inventory = running_player.character.get_main_inventory()
 
-	if tableIn.parameter ~= nil then
+	local inhalt = inventory.get_contents()
 
-		local our_command_parameter = tonumber(tableIn.parameter)
+	local inhaltslaenge = #inhalt
 
-		game.print(our_command_parameter)
-		game.print(#inventory.get_contents())
+	local the_current_index = tonumber(tableIn.parameter)
 
-		if our_command_parameter <= #inventory.get_contents() and our_command_parameter > 0 then
-			game.print("Der Index ist: " .. inventory.get_contents()[our_command_parameter].name)
-		elseif our_command_parameter > #inventory.get_contents() then
-			game.print("Index zu hoch")
-		elseif our_command_parameter < 1 then
-			game.print("Index zu niedrig")
-		else
-			game.print("Irgendwas anderes ist schiefgegangen, idek wie du das geschafft hast")
-		end
+	game.print(the_current_index)
+
+	game.print(inhaltslaenge)
+
+	if the_current_index <= inhaltslaenge and the_current_index > 0 then
+
+		game.print("Der Index ist: " .. inhalt[the_current_index].name)
+
+	elseif the_current_index > inhaltslaenge then
+
+		game.print("Index zu hoch")
+
+	elseif the_current_index < 1 then
+
+		game.print("Index zu niedrig")
+
+	else
+
+		game.print("Irgendwas anderes ist schiefgegangen, idek wie du das geschafft hast")
 
 	end
+
 end
 
-function value_returner(inventory)
-		game.print(inventory[the_given_index], colour)
-		game.print(inventory[the_given_index].count, colour)
-		game.print(materialValueList[inventory[the_given_index].name] * inventory[the_given_index].count .. "$")
-	-- inventory.get_item_count(item)
+function gimmer_index()
+	game.print(defines.inventory.fuel)
 end
 
---function def_inf_char(tableIn)
---
---	local player = game.get_player(tableIn.player_index)
---
---	local playerinv = player.get_main_inventory(tableIn.player_index)
---
---	local itemse = playerinv.get_item_count()
---
---	game.print(type(itemse))
---end
---commands.add_command("what_inf", "What is get_main_inventory?", def_inf_char)
 commands.add_command("how_rich", "Show how much Money u have", how_much_moneys)
-commands.add_command("how_me", "Show how much Money u have", how_much_moneys_am_i)
 commands.add_command("valuer", "No use", value_returner)
 commands.add_command("me_inv", "uuuh, idk", show_me_inv)
 commands.add_command("gee", "five me my index of parameter", gimme_index)
-commands.add_command("g", "sa", function ()
-	game.print(#materialValueList[1])
-end)
-
--- Remember file:///D:/Mods/Factorio/files/classes/LuaPlayer.html and file:///D:/Mods/Factorio/files/classes/LuaControl.html#get_inventory
-
+commands.add_command("ge", "gives me my dsfsindex of parameter", gimmer_index)
 
 --[===[
 ..............=*+...................*#-................*#=..................................%%*.............

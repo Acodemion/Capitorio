@@ -1,0 +1,16 @@
+{
+    "Lua.diagnostics.globals": [
+        "game",
+        "running_player",
+        "how_much_moneys_am_i",
+        "max_inventory",
+        "colour",
+        "commands",
+        "show_me_inv",
+        "get_item_stack",
+        "value_returner",
+        "how_much_moneys",
+        "gimme_index",
+        "gimmer_index"
+    ]
+}
